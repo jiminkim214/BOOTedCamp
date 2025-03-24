@@ -1,0 +1,4 @@
+(test
+ (name test_BOOTedCamp)
+ (libraries ounit2 BOOTedCamp)
+ (deps (glob_files_rec ../data/*)))
