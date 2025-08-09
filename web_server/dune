@@ -1,0 +1,4 @@
+(executable
+ (public_name bootedcamp-server)
+ (name server)
+ (libraries BOOTedCamp lwt cohttp-lwt-unix yojson))
