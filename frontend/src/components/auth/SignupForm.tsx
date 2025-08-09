@@ -5,9 +5,10 @@ import { Button } from '../ui/Button';
 interface SignupFormProps {
   onSignupSuccess: (username: string) => void;
   onSwitchToLogin: () => void;
+  onBackToHome?: () => void;
 }
 
-export const SignupForm: React.FC<SignupFormProps> = ({ onSignupSuccess, onSwitchToLogin }) => {
+export const SignupForm: React.FC<SignupFormProps> = ({ onSignupSuccess, onSwitchToLogin, onBackToHome }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -34,6 +35,18 @@ export const SignupForm: React.FC<SignupFormProps> = ({ onSignupSuccess, onSwitc
 
   return (
     <div className="max-w-md mx-auto bg-white rounded-lg shadow-md p-6">
+      {/* Back button */}
+      {onBackToHome && (
+        <div className="mb-4">
+          <button
+            onClick={onBackToHome}
+            className="text-sm text-gray-600 hover:text-gray-800 flex items-center"
+          >
+            ← Back to Home
+          </button>
+        </div>
+      )}
+      
       <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">Create Account</h2>
       
       <form onSubmit={handleSubmit} className="space-y-4">

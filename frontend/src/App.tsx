@@ -2,15 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { LoginForm } from './components/auth/LoginForm';
 import { SignupForm } from './components/auth/SignupForm';
 import { Dashboard } from './components/dashboard/Dashboard';
+import { LandingPage } from './components/landing/LandingPage';
 import { apiService } from './services/api';
 import './index.css';
 
-type AuthView = 'login' | 'signup';
+type AuthView = 'landing' | 'login' | 'signup';
 
 const App: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [currentUser, setCurrentUser] = useState<string | null>(null);
-  const [authView, setAuthView] = useState<AuthView>('login');
+  const [authView, setAuthView] = useState<AuthView>('landing');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -37,7 +38,7 @@ const App: React.FC = () => {
     apiService.logout();
     setCurrentUser(null);
     setIsAuthenticated(false);
-    setAuthView('login');
+    setAuthView('landing');
   };
 
   if (loading) {
@@ -50,6 +51,10 @@ const App: React.FC = () => {
 
   if (isAuthenticated && currentUser) {
     return <Dashboard username={currentUser} onLogout={handleLogout} />;
+  }
+
+  if (authView === 'landing') {
+    return <LandingPage onGetStarted={() => setAuthView('login')} />;
   }
 
   return (
@@ -66,11 +71,13 @@ const App: React.FC = () => {
           <LoginForm
             onLoginSuccess={handleLoginSuccess}
             onSwitchToSignup={() => setAuthView('signup')}
+            onBackToHome={() => setAuthView('landing')}
           />
         ) : (
           <SignupForm
             onSignupSuccess={handleSignupSuccess}
             onSwitchToLogin={() => setAuthView('login')}
+            onBackToHome={() => setAuthView('landing')}
           />
         )}
 
